@@ -1,0 +1,48 @@
+Phần 1. Phân tích các quy tắc vàng bị vi phạm
+Bảng Excel quản lý thiết bị IoT đang vi phạm ít nhất 4 quy tắc quan trọng trong tư duy Database:
+| QUY TẮC | BIỂU HIỆN VI PHẠM | HẬU QUẢ |
+| --- | --- |--- |
+| Mỗi cột chỉ chứa một loại dữ liệu | Cột Trạng thái có giá trị Hỏng Và Hỏng (thừa khoảng trắng) | Bộ lọc có thể nhận diện thành hai nhóm khác nhau |
+| Không gộp ô (Merge cells) | Hàng tiêu đề có các ô được gộp | AutoFilter khó xác định đúng cấu trúc từng cột |
+| Không để hàng trống giữa vùng dữ liệu | Có một hàng trống ngay giữa bảng | Excel có thể chỉ nhận diện vùng dữ liệu đến trước hàng trống |
+| Mỗi cột cần có tiêu đề rõ ràng , duy nhất | Tiêu đề bị gộp có thể khiến các cột không có tên riêng | Khó lọc ,sắp xếp và quản lí dữ liệu chính xác |
+Nguyên tắc chung :Bảng dữ liệu nên có một hàng tiêu đề ,mỗi cột đại diện cho một thuộc tính, một hàng đại diện cho một thiết bị và không có hàng trống xen giữa dữ liệu.
+
+Phần 2. Hoàn thiện bảng Excel
+Bước 1. Gỡ Merge Cell
+Chọn toàn bộ bảng dữ liệu.
+Vào Home → Merge & Center.
+Chọn Unmerge Cells.
+Đảm bảo mỗi cột có tiêu đề riêng, ví dụ: Mã thiết bị, Tên thiết bị, Vị trí, Trạng thái, Ngày kiểm tra.
+Lưu ý: Khi gỡ gộp ô, dữ liệu thường chỉ còn ở ô đầu tiên của vùng gộp. Cần kiểm tra và bổ sung các tiêu đề bị thiếu.
+Bước 2. Xóa hàng trống
+Tìm hàng trống nằm giữa bảng.
+Nhấp chuột phải vào số thứ tự hàng đó.
+Chọn Delete để xóa cả hàng.
+Kiểm tra để các bản ghi thiết bị nằm liên tục.
+Không chỉ nhấn phím Delete để xóa nội dung, vì cách đó vẫn giữ lại hàng trống.
+Bước 3. Làm sạch cột Trạng thái bằng TRIM()
+Giả sử cột Trạng thái nằm ở cột D, dữ liệu bắt đầu từ ô D2.
+Tạo một cột phụ tên Trạng thái sạch, rồi nhập công thức:
+=TRIM(D2)
+Kéo công thức xuống hết các dòng dữ liệu.
+Ví dụ:
+| Dữ liệu ban đầu | Sau khi dùng TRIM |
+| --- | --- |
+| Hỏng | Hỏng |
+| Hỏng | Hỏng |
+| Hoạt động | Hoạt động |
+Sau khi làm sạch:
+Sao chép toàn bộ cột Trạng thái sạch.
+Chọn cột Trạng thái ban đầu.
+Chọn Paste Special → Values để thay công thức bằng giá trị đã làm sạch.
+Xóa cột phụ nếu không còn cần thiết.
+Lưu ý: TRIM() xử lý khoảng trắng thông thường ở đầu, cuối và khoảng trắng thừa giữa các từ. Nếu dữ liệu chứa khoảng trắng không ngắt dòng hoặc ký tự ẩn khác, có thể cần làm sạch thêm bằng SUBSTITUTE() hoặc CLEAN().
+Bước 4. Bật AutoFilter
+Chọn một ô trong bảng dữ liệu đã làm sạch.
+Nhấn Ctrl + Shift + L.
+Nhấn mũi tên lọc tại cột Trạng thái.
+Chọn giá trị Hỏng.
+Lúc này, các thiết bị có trạng thái Hỏng sẽ được gom vào cùng một nhóm lọc.
+Kết luận
+Để AutoFilter hoạt động chính xác, cần gỡ Merge Cell, xóa hàng trống, bảo đảm tiêu đề rõ ràng và chuẩn hóa dữ liệu bằng TRIM(). Sau đó, dùng Ctrl + Shift + L để bật bộ lọc và kiểm tra lại kết quả.
